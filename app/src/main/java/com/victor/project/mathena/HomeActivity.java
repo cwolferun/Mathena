@@ -9,9 +9,11 @@ import android.widget.Button;
 public class HomeActivity extends AppCompatActivity {
     Button goToDeriv;
     Button goToInteg;
+    Button goToDInteg;
 
     Intent derivIntent;
     Intent integIntent;
+    Intent dIntegIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,9 +22,11 @@ public class HomeActivity extends AppCompatActivity {
 
         goToDeriv = (Button) findViewById(R.id.deriv_button);
         goToInteg = (Button) findViewById(R.id.integ_button);
+        goToDInteg = (Button) findViewById(R.id.dInteg_button);
 
         derivIntent = new Intent(this,Derivative.class);
         integIntent = new Intent(this,Integral.class);
+        dIntegIntent = new Intent(this,DoubleIntegral.class);
 
 
         goToDeriv.setOnClickListener(new View.OnClickListener() {
@@ -37,5 +41,12 @@ public class HomeActivity extends AppCompatActivity {
                 startActivity(integIntent);
             }
         });
+        goToDInteg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(dIntegIntent);
+            }
+        });
+
     }
 }

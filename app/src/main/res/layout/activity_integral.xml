@@ -86,15 +86,6 @@
             tools:layout_editor_absoluteX="85dp"
             tools:layout_editor_absoluteY="119dp" />
 
-        <ImageView
-            android:id="@+id/imageView2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:srcCompat="@mipmap/slope"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="27dp" />
-
     </RelativeLayout>
 
 

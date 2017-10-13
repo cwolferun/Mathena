@@ -125,7 +125,6 @@
 
         <TextView
             android:id="@+id/diAnswer"
-            style="@android:style/Widget.DeviceDefault.TextView.ListSeparator"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_alignParentBottom="true"
@@ -134,11 +133,10 @@
 
         <ImageView
             android:id="@+id/imageView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="21dp"
             app:srcCompat="@mipmap/dubi" />
     </RelativeLayout>
 </android.support.constraint.ConstraintLayout>
