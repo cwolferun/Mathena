@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+
+        android:id="@+id/der_menu"
+        android:icon="@drawable/deriv"
+        android:title="Derivative"
+
+
+        />
+    <item
+        android:id="@+id/integ_menu"
+        android:title="Integral" />
+    <item
+        android:id="@+id/dubInt_menu"
+        android:icon="@drawable/dubint"
+        android:title="Double Integral" />
+    <item
+        android:id="@+id/lineEq_menu"
+        android:title="Linear Equations" />
+</menu>
