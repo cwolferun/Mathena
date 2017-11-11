@@ -117,8 +117,8 @@ public class Integral extends AppCompatActivity {
             result="";
 
             try{
-                //String solverURL = "Http://192.168.1.65/integral/index.php";        //will need to be changed to public ip
-                String solverURL = "Http://172.12.2.86/integral/index.php";        //is public ip
+                //String solverURL = "Http://192.168.1.65/integral.php";        //will need to be changed to public ip
+                String solverURL = "Http://172.12.2.86/integral.php";        //is public ip
 
                 URL url = new URL(solverURL);
                 HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();

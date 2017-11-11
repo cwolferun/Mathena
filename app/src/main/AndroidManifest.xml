@@ -3,6 +3,11 @@
     package="com.victor.project.mathena">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-feature android:name="android.hardware.camera2" android:required="true"/>
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:required="true"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" android:required="true"/>
 
     <application
         android:allowBackup="true"
@@ -18,9 +23,19 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Derivative" />
+        <activity
+            android:name=".Derivative"
+             />
         <activity android:name=".Integral" />
-        <activity android:name=".DoubleIntegral"></activity>
+        <activity android:name=".DoubleIntegral" />
+        <activity
+            android:name=".TestingActivity"
+            android:label="@string/title_activity_testing"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity android:name=".CameraActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+        <meta-data android:name="com.google.android.gms.vision.DEPENDENCIES"
+            android:value="ocr"/>
     </application>
 
 </manifest>

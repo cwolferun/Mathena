@@ -59,6 +59,8 @@ public class DoubleIntegral extends AppCompatActivity {
                 atAPointB =(EditText) findViewById(R.id.diPointB);
                 atAPointC =(EditText) findViewById(R.id.diPointC);
                 atAPointD =(EditText) findViewById(R.id.diPointD);
+                wrtInner =(EditText) findViewById(R.id.innerVar);
+
 
                 String inner = wrtInner.getText().toString();
                 String sfunc = function.getText().toString();
@@ -106,8 +108,8 @@ public class DoubleIntegral extends AppCompatActivity {
             result="";
 
             try{
-                String solverURL = "Http://192.168.1.65/integral/index.php";        //uncomment when working in private
-                //String solverURL = "Http://172.12.2.86/integral/index.php";        //uncomment when working from public
+                //String solverURL = "Http://192.168.1.65/doubleIntegral.php";        //uncomment when working in private
+                String solverURL = "Http://172.12.2.86/doubleIntegral.php";        //uncomment when working from public
 
                 URL url = new URL(solverURL);
                 HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
@@ -121,6 +123,8 @@ public class DoubleIntegral extends AppCompatActivity {
                 bufferedWriter.flush();
                 bufferedWriter.close();
                 outputStream.close();
+
+
                 InputStream inputStream = httpURLConnection.getInputStream();
                 BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, "iso-8859-1"));
                 String line="";

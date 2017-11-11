@@ -13,12 +13,12 @@
         tools:layout_editor_absoluteY="8dp">
 
         <LinearLayout
+            android:id="@+id/linearLayout"
             android:layout_width="match_parent"
             android:layout_height="350dp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentStart="true"
-            android:orientation="vertical"
-            android:id="@+id/linearLayout">
+            android:orientation="vertical">
 
             <Button
                 android:id="@+id/deriv_button"
@@ -71,9 +71,9 @@
             android:id="@+id/imageView3"
             android:layout_width="150dp"
             android:layout_height="150dp"
-            app:srcCompat="@mipmap/replace"
             android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true" />
+            android:layout_centerHorizontal="true"
+            app:srcCompat="@mipmap/replace" />
 
     </RelativeLayout>
 </android.support.constraint.ConstraintLayout>

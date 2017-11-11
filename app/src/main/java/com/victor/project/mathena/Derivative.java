@@ -1,8 +1,11 @@
 package com.victor.project.mathena;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -24,6 +27,10 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.StringTokenizer;
+
+import static com.victor.project.mathena.Permission.MY_PERMISSIONS_CAMERA;
 
 public class Derivative extends AppCompatActivity {
     Button solveIt;
@@ -31,13 +38,31 @@ public class Derivative extends AppCompatActivity {
     EditText atAPoint;
     TextView answer;
     String result = "";
+    SharedPreferences preferences;
+    SharedPreferences.Editor sEditor;
+
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        function =(EditText) findViewById(R.id.derivFuncText);
+        atAPoint =(EditText) findViewById(R.id.DerivPointText);
+
+        String received = preferences.getString("Function","");
+                if(!received.isEmpty()){
+                    sEditor.clear();
+                    sEditor.commit();
+                    fillFields(received);
+                }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_derivative);
-
-
+        preferences = getSharedPreferences("share",0);
+        sEditor = preferences.edit();
 
         solveIt = (Button) findViewById(R.id.solveDerivBtn);
         answer = (TextView) findViewById(R.id.derivAnser);
@@ -47,8 +72,6 @@ public class Derivative extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                function =(EditText) findViewById(R.id.derivFuncText);
-                atAPoint =(EditText) findViewById(R.id.DerivPointText);
 
                 String sfunc = function.getText().toString();
                 String spoint = atAPoint.getText().toString();
@@ -84,6 +107,13 @@ public class Derivative extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
         switch (item.getItemId()) {
+            case R.id.cam:
+                Permission permission = new Permission(getApplicationContext(),this);
+                permission.camera();
+                Intent camIntent;
+                camIntent = new Intent(this,CameraActivity.class);
+                startActivity(camIntent);
+                return true;
             case R.id.der_menu:
                 //intentionally left blank
                return true;
@@ -117,8 +147,8 @@ public class Derivative extends AppCompatActivity {
             result="";
 
             try{
-                //String solverURL = "Http://192.168.1.65/derivative/index.php";        //will need to be changed to public ip
-                String solverURL = "Http://172.12.2.86/derivative/index.php";
+                //String solverURL = "Http://192.168.1.65/derivative.php";        //will need to be changed to public ip
+                String solverURL = "Http://172.12.2.86/derivative.php";
                 URL url = new URL(solverURL);
                 HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
                 httpURLConnection.setRequestMethod("POST");
@@ -159,4 +189,63 @@ public class Derivative extends AppCompatActivity {
         }
 
     }
+    @Override
+    public void onRequestPermissionsResult(int requestcode, String[] permissions,
+                                           int[] grantResults){
+        if(requestcode == MY_PERMISSIONS_CAMERA) {
+            // If request is cancelled, the result arrays are empty.
+            if (grantResults.length > 0
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {/*
+                CameraManager cameraManager = (CameraManager) getActivity().getSystemService(Context.CAMERA_SERVICE);
+                try {
+                    cameraManager.openCamera(cameraID, mcamcallback, mBackgroundHandler);
+                }
+                catch (CameraAccessException e){e.printStackTrace();}
+                // permission was granted, yay! Do the
+                // contacts-related task you need to do.
+
+            */
+                // openCamm();
+            } else {
+                finish();
+            }
+        }
+
+    }
+
+    public void fillFields(String string){
+
+        String functionName;
+        String singleBound;
+
+        int arguments=0;
+        String[] boxes = new String[2];
+        StringTokenizer st = new StringTokenizer(string," \n");
+        while (st.hasMoreTokens()) {
+            if(arguments>=2)
+            {
+                //there are too many arguments
+                return;
+            }
+            boxes[arguments]=st.nextToken();
+            arguments++;
+
+        }
+        if(boxes[0].contains("="))
+        {
+            functionName= boxes[0].split("=")[1];
+
+        }
+        else
+        {
+            functionName=boxes[0];
+        }
+        singleBound=boxes[1];
+
+        function.setText(functionName);
+        atAPoint.setText(singleBound);
+
+    }
+
+
 }
