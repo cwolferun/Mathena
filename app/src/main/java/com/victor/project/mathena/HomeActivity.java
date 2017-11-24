@@ -1,5 +1,6 @@
 package com.victor.project.mathena;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,10 +11,13 @@ public class HomeActivity extends AppCompatActivity {
     Button goToDeriv;
     Button goToInteg;
     Button goToDInteg;
+    Button goToMatrix;
+
 
     Intent derivIntent;
     Intent integIntent;
     Intent dIntegIntent;
+    Intent matrixIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,10 +27,12 @@ public class HomeActivity extends AppCompatActivity {
         goToDeriv = (Button) findViewById(R.id.deriv_button);
         goToInteg = (Button) findViewById(R.id.integ_button);
         goToDInteg = (Button) findViewById(R.id.dInteg_button);
+        goToMatrix = (Button) findViewById(R.id.matrix_button);
 
         derivIntent = new Intent(this,Derivative.class);
         integIntent = new Intent(this,Integral.class);
         dIntegIntent = new Intent(this,DoubleIntegral.class);
+        matrixIntent = new Intent(this,MatrixActivity.class);
 
 
         goToDeriv.setOnClickListener(new View.OnClickListener() {
@@ -45,6 +51,12 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(dIntegIntent);
+            }
+        });
+        goToMatrix.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(matrixIntent);
             }
         });
 

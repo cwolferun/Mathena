@@ -3,6 +3,7 @@ package com.victor.project.mathena;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -13,6 +14,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -40,6 +42,8 @@ public class Derivative extends AppCompatActivity {
     String result = "";
     SharedPreferences preferences;
     SharedPreferences.Editor sEditor;
+    static int MY_PERMISSIONS_CAMERA;
+
 
 
 
@@ -48,12 +52,12 @@ public class Derivative extends AppCompatActivity {
         super.onResume();
         function =(EditText) findViewById(R.id.derivFuncText);
         atAPoint =(EditText) findViewById(R.id.DerivPointText);
-
         String received = preferences.getString("Function","");
                 if(!received.isEmpty()){
                     sEditor.clear();
                     sEditor.commit();
                     fillFields(received);
+
                 }
     }
 
@@ -61,11 +65,24 @@ public class Derivative extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_derivative);
+
+
         preferences = getSharedPreferences("share",0);
         sEditor = preferences.edit();
-
+        //Permission permission = new Permission(getApplicationContext(),this);
+        //permission.camera();
         solveIt = (Button) findViewById(R.id.solveDerivBtn);
         answer = (TextView) findViewById(R.id.derivAnser);
+
+
+        if (ActivityCompat.checkSelfPermission(getApplicationContext(),android.Manifest.permission.CAMERA)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            ActivityCompat.requestPermissions(this,
+                    new String[]{android.Manifest.permission.CAMERA},
+                    MY_PERMISSIONS_CAMERA);
+
+        }
 
         solveIt.setOnClickListener(new View.OnClickListener() {
 
@@ -108,8 +125,6 @@ public class Derivative extends AppCompatActivity {
         // Handle item selection
         switch (item.getItemId()) {
             case R.id.cam:
-                Permission permission = new Permission(getApplicationContext(),this);
-                permission.camera();
                 Intent camIntent;
                 camIntent = new Intent(this,CameraActivity.class);
                 startActivity(camIntent);
@@ -195,19 +210,12 @@ public class Derivative extends AppCompatActivity {
         if(requestcode == MY_PERMISSIONS_CAMERA) {
             // If request is cancelled, the result arrays are empty.
             if (grantResults.length > 0
-                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {/*
-                CameraManager cameraManager = (CameraManager) getActivity().getSystemService(Context.CAMERA_SERVICE);
-                try {
-                    cameraManager.openCamera(cameraID, mcamcallback, mBackgroundHandler);
-                }
-                catch (CameraAccessException e){e.printStackTrace();}
-                // permission was granted, yay! Do the
-                // contacts-related task you need to do.
-
-            */
-                // openCamm();
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(getApplicationContext(),"request granted",Toast.LENGTH_LONG).show();
             } else {
-                finish();
+                Toast.makeText(getApplicationContext(),"request granted",Toast.LENGTH_LONG).show();
+
+               // finish();
             }
         }
 

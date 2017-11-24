@@ -38,10 +38,11 @@
                 android:layout_height="30dp"
                 android:layout_margin="0sp"
                 android:layout_weight="1"
-                android:background="@mipmap/blub"
-                android:drawableRight="@drawable/ic_stat_name"
+                android:background="@mipmap/back1"
+                android:drawableRight="@drawable/curve"
                 android:padding="0sp"
                 android:text="Integral"
+                android:textColor="@android:color/background_light"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
@@ -53,6 +54,7 @@
                 android:background="@mipmap/back1"
                 android:drawableRight="@drawable/dubint"
                 android:text="Double Integral"
+                android:textColor="@android:color/background_light"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
@@ -61,8 +63,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:layout_weight="1"
+                android:background="@mipmap/back1"
                 android:drawableRight="@drawable/matrix"
                 android:text="Matrix"
+                android:textColor="@android:color/background_light"
                 android:textSize="20sp"
                 android:textStyle="bold" />
         </LinearLayout>

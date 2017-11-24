@@ -1,10 +1,12 @@
 package com.victor.project.mathena;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -33,76 +35,56 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 public class CameraActivity extends AppCompatActivity {
-    SurfaceView cameraView;
-    Button btn1;
-    String stringPulled;
-    String stringKept;
+
     SharedPreferences preferences;
     SharedPreferences.Editor sEditor;
     public static final String TESS_DATA = "/tessdata";
     private static final String TAG = CameraActivity.class.getSimpleName();
     private static final String DATA_PATH = Environment.getExternalStorageDirectory().toString() + "/Tess";
-    private TextView textView;
     private TessBaseAPI tessBaseAPI;
     private Uri outputFileDir;
+    Context context;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_camera);
+       //setContentView(R.layout.activity_camera);
         preferences = getSharedPreferences("share", 0);
         sEditor = preferences.edit();
-
-        textView = (TextView) findViewById(R.id.findview);
+        context = getApplicationContext();
 
        // btn1 = (Button) findViewById(R.id.testbtn);
 
-        textView = (TextView) this.findViewById(R.id.textView);
-        final Activity activity = this;
+        //final Activity activity = this;
         checkPermission();
         startCameraActivity();
 
 
-        this.findViewById(R.id.testbtn).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                checkPermission();
-
-            }
-        });
-
-//        btn1.setOnClickListener(new View.OnClickListener() {
+//        this.findViewById(R.id.testbtn).setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
+//                checkPermission();
 //
-//                stringKept = stringPulled;
-//                sEditor.putString("Function", stringKept);
-//                sEditor.commit();
-//                finish();
-//                int x=5;
-////                scanImage = new ScanImage();
-////                try {
-////                    scanImage.wait();
-////                } catch (InterruptedException e) {
-////                    e.printStackTrace();
-////                }
 //            }
 //        });
 
+
+
     }
 
-    @Override
-    public void onWindowFocusChanged(boolean hasFocus) {
-        super.onWindowFocusChanged(hasFocus);
-        View decorView = getWindow().getDecorView();
-        if (hasFocus) {
-            decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                    | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-                    | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                    | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                    | View.SYSTEM_UI_FLAG_FULLSCREEN
-                    | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);
-        }
-    }
+//    @Override
+//    public void onWindowFocusChanged(boolean hasFocus) {
+//        super.onWindowFocusChanged(hasFocus);
+//        View decorView = getWindow().getDecorView();
+//        if (hasFocus) {
+//            decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+//                    | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+//                    | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+//                    | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+//                    | View.SYSTEM_UI_FLAG_FULLSCREEN
+//                    | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);
+//        }
+//    }
     private void checkPermission() {
         if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 120);
@@ -119,9 +101,13 @@ public class CameraActivity extends AppCompatActivity {
                 dir.mkdir();
             }
             String imageFilePath = imagePath+"/ocr.jpg";
-            outputFileDir = Uri.fromFile(new File(imageFilePath));
+            //outputFileDir = Uri.fromFile(new File(imageFilePath));
+            outputFileDir = FileProvider.getUriForFile(context, context.getApplicationContext().getPackageName() +
+                    ".my.package.name.provider", new File(imageFilePath));
             final Intent pictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             pictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileDir);
+            pictureIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
             if(pictureIntent.resolveActivity(getPackageManager() ) != null){
                 startActivityForResult(pictureIntent, 1024);
             }
@@ -139,6 +125,7 @@ public class CameraActivity extends AppCompatActivity {
                 startOCR(outputFileDir);
             } else if (resultCode == Activity.RESULT_CANCELED) {
                 Toast.makeText(getApplicationContext(), "Result canceled.", Toast.LENGTH_SHORT).show();
+                finish();
             } else {
                 Toast.makeText(getApplicationContext(), "Activity result failed.", Toast.LENGTH_SHORT).show();
             }
