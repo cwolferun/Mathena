@@ -91,7 +91,8 @@ public class Integral extends AppCompatActivity {
                 Intent derivIntent;
                 derivIntent = new Intent(this,Derivative.class);
                 startActivity(derivIntent);
-                finish();                return true;
+                finish();
+                return true;
             case R.id.integ_menu:
                 //blank
                 return true;
@@ -99,7 +100,8 @@ public class Integral extends AppCompatActivity {
                 Intent dIntegIntent;
                 dIntegIntent = new Intent(this,DoubleIntegral.class);
                 startActivity(dIntegIntent);
-                finish();                return true;
+                finish();
+                return true;
             case R.id.lineEq_menu:
                 //TODO
                 return true;

@@ -34,13 +34,18 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import static java.lang.Character.isLetter;
+import static java.lang.Character.toLowerCase;
+
 public class CameraActivity extends AppCompatActivity {
 
     SharedPreferences preferences;
     SharedPreferences.Editor sEditor;
     public static final String TESS_DATA = "/tessdata";
     private static final String TAG = CameraActivity.class.getSimpleName();
+    //private static final String DATA_PATH = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).toString() + "/Tess";
     private static final String DATA_PATH = Environment.getExternalStorageDirectory().toString() + "/Tess";
+
     private TessBaseAPI tessBaseAPI;
     private Uri outputFileDir;
     Context context;
@@ -72,38 +77,30 @@ public class CameraActivity extends AppCompatActivity {
 
     }
 
-//    @Override
-//    public void onWindowFocusChanged(boolean hasFocus) {
-//        super.onWindowFocusChanged(hasFocus);
-//        View decorView = getWindow().getDecorView();
-//        if (hasFocus) {
-//            decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-//                    | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-//                    | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-//                    | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-//                    | View.SYSTEM_UI_FLAG_FULLSCREEN
-//                    | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);
-//        }
-//    }
+
     private void checkPermission() {
         if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 120);
         }
         if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 121);
-        }
+        }//else {Toast.makeText(context,"you can write",Toast.LENGTH_LONG).show();}
     }
     private void startCameraActivity(){
         try{
             String imagePath = DATA_PATH+ "/imgs";
             File dir = new File(imagePath);
             if(!dir.exists()){
-                dir.mkdir();
+                boolean made= dir.mkdir();
+                if(made){Toast.makeText(context,"it was made",Toast.LENGTH_LONG).show();}
+                else{
+                    Toast.makeText(context,"didnt make",Toast.LENGTH_LONG).show();
+                }
             }
             String imageFilePath = imagePath+"/ocr.jpg";
-            //outputFileDir = Uri.fromFile(new File(imageFilePath));
-            outputFileDir = FileProvider.getUriForFile(context, context.getApplicationContext().getPackageName() +
-                    ".my.package.name.provider", new File(imageFilePath));
+            outputFileDir = Uri.fromFile(new File(imageFilePath));
+            //outputFileDir = FileProvider.getUriForFile(context, context.getApplicationContext().getPackageName() +
+             //       ".provider", new File(imageFilePath));
             final Intent pictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             pictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileDir);
             pictureIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
@@ -215,8 +212,24 @@ public class CameraActivity extends AppCompatActivity {
         }
     }
     public String modifyMathString(String input){
-
+        char[] cArray = input.toCharArray();
+        for(int c = 0; c<cArray.length;c++){
+            if(isLetter(cArray[c])){
+                cArray[c] = toLowerCase(cArray[c]);
+            }
+            if(cArray[c]==':'){
+                cArray[c] ='=';
+            }
+            if(cArray[c]=='A'){
+                cArray[c] ='^';
+            }
+            if(cArray[c]=='S'){
+                cArray[c] ='5';
+            }
+        }
+        input = new String(cArray);
         return input.replaceAll("/\\\\","^");
+
 
     }
 }
