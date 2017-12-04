@@ -214,9 +214,8 @@ public class CameraActivity extends AppCompatActivity {
     public String modifyMathString(String input){
         char[] cArray = input.toCharArray();
         for(int c = 0; c<cArray.length;c++){
-            if(isLetter(cArray[c])){
-                cArray[c] = toLowerCase(cArray[c]);
-            }
+
+
             if(cArray[c]==':'){
                 cArray[c] ='=';
             }
@@ -225,6 +224,15 @@ public class CameraActivity extends AppCompatActivity {
             }
             if(cArray[c]=='S'){
                 cArray[c] ='5';
+            }
+            if(cArray[c]==8212){
+                cArray[c] ='-';
+            }
+            if(cArray[c]=='~'){
+                cArray[c] ='-';
+            }
+            if(isLetter(cArray[c])){
+                cArray[c] = toLowerCase(cArray[c]);
             }
         }
         input = new String(cArray);

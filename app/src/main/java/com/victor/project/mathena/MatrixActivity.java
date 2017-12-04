@@ -2,6 +2,7 @@ package com.victor.project.mathena;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -34,6 +35,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.StringTokenizer;
 
 
 public class MatrixActivity extends AppCompatActivity {
@@ -42,22 +44,63 @@ public class MatrixActivity extends AppCompatActivity {
     TextView answer;
     EditText first;
     LinearLayout ll;
-    int numOfEqs = 0;
+    int numOfEqs = 1;
     Context context;
     List<EditText> allTex;
-    String allStrings;
+    StringBuilder allInputs;
     String result;
+    SharedPreferences preferences;
+    SharedPreferences.Editor sEditor;
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        numOfEqs=1;
+        String received = preferences.getString("Function","");
+        if(!received.isEmpty()){
+            sEditor.clear();
+            sEditor.commit();
+            fillFields(received);
+
+        }
+    }
+
+    public void addEditText(){
+
+        if (numOfEqs<=5) {
+            final EditText rowEditText = new EditText(context);
+            rowEditText.setId(numOfEqs);
+            LinearLayout.LayoutParams layoutParams = new  LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            ll.addView(rowEditText, layoutParams);
+
+            rowEditText.setTextColor(0xff000000);
+            //rowEditText.setText("rent money");
+            allTex.add(rowEditText);
+            numOfEqs++;
+
+        }
+        else {
+            Toast.makeText(context,"Take it the easy",Toast.LENGTH_LONG).show();
+        }
+
+
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_matrix);
+        preferences = getSharedPreferences("share", 0);
+        sEditor = preferences.edit();
         context = getApplicationContext();
         addOne = (Button) findViewById(R.id.addEquation);
         first = (EditText) findViewById(R.id.firstEq);
         solveit = (Button) findViewById(R.id.matrixSolv);
         answer = (TextView) findViewById(R.id.matrixAns);
         ll = (LinearLayout) findViewById(R.id.linLay);
+        allInputs = new StringBuilder();
 
         allTex = new ArrayList<>();
 
@@ -65,48 +108,32 @@ public class MatrixActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if (numOfEqs<=3) {
-                    final EditText rowEditText = new EditText(context);
-                    rowEditText.setId(numOfEqs);
-                    LinearLayout.LayoutParams layoutParams = new  LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                    ll.addView(rowEditText, layoutParams);
-
-                    rowEditText.setText("rent money");
-                    allTex.add(rowEditText);
-                    numOfEqs++;
-                }
-                else {
-                    Toast.makeText(context,"Take it the easy",Toast.LENGTH_LONG).show();
-                }
-
+                addEditText();
 
             }
         });
         //allStrings="";
         //stringBuilder.append(first.getText().toString());
-        solveit.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                StringBuilder stringBuilder = new StringBuilder(first.getText().toString());
-                for(int b = 0; b < numOfEqs; b++){
-               // allStrings += allTex.get(b).getText().toString();
-                  //  stringBuilder.append(" ");
-                    //String randoString = first.getText().toString();
-                    stringBuilder.append(" ").append(allTex.get(b).getText().toString());
-                }
-                //answer.setText(stringBuilder.toString());
 
-                MatrixActivity.NetworkThread nt = new MatrixActivity.NetworkThread(stringBuilder.toString());
+
+        solveit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                allInputs.append(first.getText().toString());
+                for(int t=1; t<numOfEqs;t++)
+                {
+                    allInputs.append(" ").append(allTex.get(t-1).getText().toString());
+                }
+
+                MatrixActivity.NetworkThread nt = new MatrixActivity.NetworkThread(allInputs.toString());
                 nt.start();
                 try {
                     nt.join();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                answer.setText("");
+                allInputs.setLength(0);
                 answer.setText(result);
-
-
             }
         });
 
@@ -163,8 +190,8 @@ public class MatrixActivity extends AppCompatActivity {
             result="";
 
             try{
-                //String solverURL = "Http://192.168.1.65/matrix.php";        //will need to be changed to public ip
-                String solverURL = "Http://172.12.2.86/matrix.php";        //is public ip
+                String solverURL = "Http://192.168.1.65/matrix.php";        //will need to be changed to public ip
+                //String solverURL = "Http://172.12.2.86/matrix.php";        //is public ip
 
                 URL url = new URL(solverURL);
                 HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
@@ -201,6 +228,20 @@ public class MatrixActivity extends AppCompatActivity {
         }
 
 
+
+    }
+    public void fillFields(String string){
+
+
+        String[] equations = string.split("\n");
+        int systemSize = equations.length;
+        for (int e =1; e<systemSize;e++){
+
+            addEditText();
+            allTex.get(e-1).setText(equations[e]);
+        }
+
+        first.setText(equations[0]);
 
     }
 
