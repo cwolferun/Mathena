@@ -6,80 +6,104 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.victor.project.mathena.Derivative">
+    tools:context="com.victor.project.mathena.Derivative"
+    android:background="@mipmap/test1"
+    >
 
 
-    <RelativeLayout
-        android:layout_width="368dp"
-        android:layout_height="459dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
+    <EditText
+        android:id="@+id/derivFuncText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="200dp"
+        android:ems="10"
+        android:hint="4x+2"
+        android:background="@android:color/white"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.503"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/DerivPointText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/solveDerivBtn"
+        android:layout_alignStart="@+id/derivFuncText"
+        android:layout_marginBottom="176dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:background="@android:color/white"
+        android:ems="10"
+        android:hint="x=4"
+        android:inputType="textPersonName"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.503"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/solveDerivBtn"
+        android:layout_below="@+id/derivFuncText"
+        android:layout_marginBottom="24dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:text="At The Point:"
+        app:layout_constraintBottom_toTopOf="@+id/DerivPointText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/solveDerivBtn"
+        android:layout_above="@+id/derivAnser"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="68dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_width="108dp"
+        android:layout_height="43dp"
+        android:background="@mipmap/buttest2"
+        android:textColor="@android:color/background_light"
+        android:text="Solve"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/derivAnser"
+        android:layout_width="368dp"
+        android:layout_height="40dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:textAlignment="center"
+        android:textColor="@android:color/holo_blue_dark"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="171dp"
+        android:layout_height="149dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginStart="8dp">
-
-        <TextView
-            android:id="@+id/derivAnser"
-            android:layout_width="368dp"
-            android:layout_height="40dp"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentStart="true"
-            android:textAlignment="center"
-            android:textSize="20dp"
-            android:textStyle="bold"
-            tools:layout_editor_absoluteX="8dp"
-            tools:layout_editor_absoluteY="475dp" />
-
-        <Button
-            android:id="@+id/solveDerivBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/derivAnser"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="73dp"
-            android:text="Solve"
-            tools:layout_editor_absoluteX="115dp"
-            tools:layout_editor_absoluteY="385dp" />
-
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/solveDerivBtn"
-            android:layout_below="@+id/derivFuncText"
-            android:layout_marginTop="89dp"
-            android:text="At The Point:"
-            tools:layout_editor_absoluteX="130dp"
-            tools:layout_editor_absoluteY="247dp" />
-
-        <EditText
-            android:id="@+id/DerivPointText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/solveDerivBtn"
-            android:layout_alignStart="@+id/derivFuncText"
-            android:layout_marginBottom="29dp"
-            android:ems="10"
-            android:hint="e.gx=4"
-            android:inputType="textPersonName"
-            tools:layout_editor_absoluteX="85dp"
-            tools:layout_editor_absoluteY="291dp" />
-
-        <EditText
-            android:id="@+id/derivFuncText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="62dp"
-            android:layout_marginTop="34dp"
-            android:ems="10"
-            android:hint="4x+2"
-            android:inputType="textPersonName"
-            tools:layout_editor_absoluteX="85dp"
-            tools:layout_editor_absoluteY="119dp" />
-    </RelativeLayout>
+        app:srcCompat="@mipmap/slope" />
 
 </android.support.constraint.ConstraintLayout>

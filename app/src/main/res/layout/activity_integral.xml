@@ -4,89 +4,132 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.victor.project.mathena.Integral">
+    tools:context="com.victor.project.mathena.Integral"
+    android:background="@mipmap/test1"
+    >
 
 
-    <RelativeLayout
+    <TextView
+        android:id="@+id/IntegAnser"
         android:layout_width="368dp"
-        android:layout_height="495dp"
-        tools:layout_editor_absoluteX="9dp"
-        tools:layout_editor_absoluteY="8dp">
+        android:layout_height="40dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:textAlignment="center"
+        android:textColor="@android:color/holo_blue_dark"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
-        <TextView
-            android:id="@+id/IntegAnser"
-            android:layout_width="368dp"
-            android:layout_height="40dp"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentStart="true"
-            android:textAlignment="center"
-            android:textSize="20dp"
-            android:textStyle="bold"
-            tools:layout_editor_absoluteX="8dp"
-            tools:layout_editor_absoluteY="475dp" />
+    <Button
+        android:layout_width="108dp"
+        android:layout_height="43dp"
+        android:background="@mipmap/buttest2"
+        android:id="@+id/solveIntegBtn"
+        android:textColor="@android:color/background_light"
+        android:layout_above="@+id/IntegAnser"
+        android:layout_alignStart="@+id/IntegPointB"
+        android:layout_marginBottom="68dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:text="Solve"
+        app:layout_constraintBottom_toBottomOf="@+id/IntegAnser"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
-        <Button
-            android:id="@+id/solveIntegBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/IntegAnser"
-            android:layout_alignStart="@+id/IntegPointB"
-            android:layout_marginBottom="13dp"
-            android:text="Solve"
-            tools:layout_editor_absoluteX="115dp"
-            tools:layout_editor_absoluteY="385dp" />
+    <TextView
+        android:id="@+id/between1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/IntegPointA"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="232dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:text="Between The Points:"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/IntegPointB"
+        app:layout_constraintHorizontal_bias="0.468"
+        app:layout_constraintStart_toStartOf="@+id/IntegPointA" />
 
-        <TextView
-            android:id="@+id/between1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/IntegPointA"
-            android:layout_centerHorizontal="true"
-            android:text="Between The Points:"
-            tools:layout_editor_absoluteX="130dp"
-            tools:layout_editor_absoluteY="247dp" />
+    <EditText
+        android:id="@+id/IntegPointA"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_marginBottom="176dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:hint="x=2"
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/IntegPointB"
+        app:layout_constraintHorizontal_bias="0.52"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
 
-        <EditText
-            android:id="@+id/IntegPointA"
-            android:layout_width="80dp"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="e.g x=2"
-            android:inputType="textPersonName"
-            tools:layout_editor_absoluteX="85dp"
-            tools:layout_editor_absoluteY="291dp"
-            android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true" />
+    <EditText
+        android:id="@+id/IntegPointB"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/solveIntegBtn"
+        android:layout_alignStart="@+id/IntegPointA"
+        android:layout_marginBottom="180dp"
+        android:layout_marginEnd="60dp"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:hint="x=4"
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
 
-        <EditText
-            android:id="@+id/IntegPointB"
-            android:layout_width="80dp"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="e.g x=4"
-            android:inputType="textPersonName"
-            tools:layout_editor_absoluteX="85dp"
-            tools:layout_editor_absoluteY="291dp"
-            android:layout_above="@+id/solveIntegBtn"
-            android:layout_alignStart="@+id/IntegPointA"
-            android:layout_marginBottom="46dp" />
+    <EditText
+        android:id="@+id/IntegFuncText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/between1"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="184dp"
+        android:ems="10"
+        android:hint="x^3+4"
+        android:inputType="textPersonName"
+        android:linksClickable="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.503"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
 
-        <EditText
-            android:id="@+id/IntegFuncText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/between1"
-            android:layout_alignParentStart="true"
-            android:layout_marginBottom="32dp"
-            android:layout_marginStart="56dp"
-            android:ems="10"
-            android:hint="fucntion"
-            android:inputType="textPersonName"
-            android:linksClickable="false"
-            tools:layout_editor_absoluteX="85dp"
-            tools:layout_editor_absoluteY="119dp" />
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="131dp"
+        android:layout_height="115dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="36dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@mipmap/integ" />
 
-    </RelativeLayout>
 
 
 </android.support.constraint.ConstraintLayout>
