@@ -94,7 +94,7 @@ public class CameraActivity extends AppCompatActivity {
                 boolean made= dir.mkdir();
                 if(made){Toast.makeText(context,"it was made",Toast.LENGTH_LONG).show();}
                 else{
-                    Toast.makeText(context,"didnt make",Toast.LENGTH_LONG).show();
+                    Toast.makeText(context,"didn't make",Toast.LENGTH_LONG).show();
                 }
             }
             String imageFilePath = imagePath+"/ocr.jpg";

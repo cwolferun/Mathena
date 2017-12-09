@@ -51,6 +51,7 @@ public class MatrixActivity extends AppCompatActivity {
     String result;
     SharedPreferences preferences;
     SharedPreferences.Editor sEditor;
+    boolean callSuccess;
 
 
     @Override
@@ -101,7 +102,7 @@ public class MatrixActivity extends AppCompatActivity {
         answer = (TextView) findViewById(R.id.matrixAns);
         ll = (LinearLayout) findViewById(R.id.linLay);
         allInputs = new StringBuilder();
-
+        callSuccess =false;
         allTex = new ArrayList<>();
 
         addOne.setOnClickListener(new View.OnClickListener(){
@@ -149,6 +150,12 @@ public class MatrixActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
         switch (item.getItemId()) {
+            case R.id.history:
+                Intent historyIntent;
+                historyIntent = new Intent(this,HistoryActivity.class);
+                historyIntent.putExtra("caller","matrix");
+                startActivity(historyIntent);
+                return true;
             case R.id.cam:
                 Intent camIntent;
                 camIntent = new Intent(this,CameraActivity.class);
@@ -179,6 +186,28 @@ public class MatrixActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
+
+  /*  private void savehistory() {
+
+        if(callSuccess){
+
+
+
+            StringBuilder builder = new StringBuilder(function.getText().toString());
+
+
+            builder.append(" ").append(atAPoint.getText().toString())
+                    .append("\n").append(answer.getText().toString());
+
+            put1.add(builder.toString());
+            myHistory.edit().putStringSet("derivative",put1).apply();
+            // myHistory.edit().apply();
+
+            callSuccess = false;
+        }
+
+    }
+*/
 
     class NetworkThread extends Thread{
         String send;

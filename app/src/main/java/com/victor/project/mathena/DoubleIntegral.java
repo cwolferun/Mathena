@@ -41,7 +41,7 @@ public class DoubleIntegral extends AppCompatActivity {
     TextView answer;
     String result = "";
     String sendToServer;
-
+    boolean callSuccess;
     SharedPreferences preferences;
     SharedPreferences.Editor sEditor;
 
@@ -63,6 +63,7 @@ public class DoubleIntegral extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_double_integral);
 
+        callSuccess =false;
         preferences = getSharedPreferences("share",0);
         sEditor = preferences.edit();
 
@@ -183,6 +184,12 @@ public class DoubleIntegral extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
         switch (item.getItemId()) {
+            case R.id.history:
+                Intent historyIntent;
+                historyIntent = new Intent(this,HistoryActivity.class);
+                historyIntent.putExtra("caller","doubleIntegral");
+                startActivity(historyIntent);
+                return true;
             case R.id.cam:
                 Intent camIntent;
                 camIntent = new Intent(this,CameraActivity.class);
@@ -203,12 +210,36 @@ public class DoubleIntegral extends AppCompatActivity {
                 //left blank
                 return true;
             case R.id.lineEq_menu:
-                //TODO
+                Intent matrixIntent;
+                matrixIntent = new Intent(this,MatrixActivity.class);
+                startActivity(matrixIntent);
+                finish();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
+
+  /*  private void savehistory() {
+
+        if(callSuccess){
+
+
+
+            StringBuilder builder = new StringBuilder(function.getText().toString());
+
+
+            builder.append(" ").append(atAPoint.getText().toString())
+                    .append("\n").append(answer.getText().toString());
+
+            put1.add(builder.toString());
+            myHistory.edit().putStringSet("derivative",put1).apply();
+            // myHistory.edit().apply();
+
+            callSuccess = false;
+        }
+
+    }*/
     public void fillFields(String string){
         //string may equal something like "5x^3+4x-2y^2+5y dx dy\nx=[3,6]\ny=[2,5]"
 

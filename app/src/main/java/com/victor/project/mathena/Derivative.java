@@ -7,6 +7,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.ArraySet;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -30,6 +31,8 @@ import java.net.ProtocolException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 import java.util.StringTokenizer;
 
 import static com.victor.project.mathena.Permission.MY_PERMISSIONS_CAMERA;
@@ -41,8 +44,12 @@ public class Derivative extends AppCompatActivity {
     TextView answer;
     String result = "";
     SharedPreferences preferences;
+    SharedPreferences myHistory;
+
     SharedPreferences.Editor sEditor;
+    boolean callSuccess;
     static int MY_PERMISSIONS_CAMERA;
+    Set<String> put1;
 
 
 
@@ -67,10 +74,19 @@ public class Derivative extends AppCompatActivity {
         setContentView(R.layout.activity_derivative);
 
 
+        myHistory = getSharedPreferences("History", 0);
+        callSuccess = false;
         preferences = getSharedPreferences("share",0);
         sEditor = preferences.edit();
         //Permission permission = new Permission(getApplicationContext(),this);
         //permission.camera();
+        //put1 = new ArraySet<>();
+
+        put1 = myHistory.getStringSet("derivative", null);
+        if(put1 == null) {
+            put1 = new ArraySet<>();
+        }
+
         solveIt = (Button) findViewById(R.id.solveDerivBtn);
         answer = (TextView) findViewById(R.id.derivAnser);
 
@@ -106,11 +122,34 @@ public class Derivative extends AppCompatActivity {
                 answer.setText("");
                 answer.setText(result);
 
+                savehistory();
+
 
 
 
             }
         });
+    }
+
+    private void savehistory() {
+
+        if(callSuccess){
+
+
+
+            StringBuilder builder = new StringBuilder(function.getText().toString());
+
+
+            builder.append(" ").append(atAPoint.getText().toString())
+            .append("\n").append(answer.getText().toString());
+
+            put1.add(builder.toString());
+            myHistory.edit().putStringSet("derivative",put1).apply();
+           // myHistory.edit().apply();
+
+            callSuccess = false;
+        }
+
     }
 
     @Override
@@ -124,6 +163,12 @@ public class Derivative extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
         switch (item.getItemId()) {
+            case R.id.history:
+                Intent historyIntent;
+                historyIntent = new Intent(this,HistoryActivity.class);
+                historyIntent.putExtra("caller","derivative");
+                startActivity(historyIntent);
+                return true;
             case R.id.cam:
                 Intent camIntent;
                 camIntent = new Intent(this,CameraActivity.class);
@@ -145,7 +190,10 @@ public class Derivative extends AppCompatActivity {
                 finish();
                 return true;
             case R.id.lineEq_menu:
-                //TODO
+                Intent matrixIntent;
+                matrixIntent = new Intent(this,MatrixActivity.class);
+                startActivity(matrixIntent);
+                finish();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -162,8 +210,8 @@ public class Derivative extends AppCompatActivity {
             result="";
 
             try{
-                //String solverURL = "Http://192.168.1.65/derivative.php";        //will need to be changed to public ip
-                String solverURL = "Http://172.12.2.86/derivative.php";
+                String solverURL = "Http://192.168.1.65/derivative.php";        //will need to be changed to public ip
+                //String solverURL = "Http://172.12.2.86/derivative.php";
                 URL url = new URL(solverURL);
                 HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
                 httpURLConnection.setRequestMethod("POST");
@@ -190,6 +238,7 @@ public class Derivative extends AppCompatActivity {
                 bufferedReader.close();
                 inputStream.close();
                 httpURLConnection.disconnect();
+                callSuccess = true;
 
 
             } catch (UnsupportedEncodingException e) {
@@ -252,6 +301,8 @@ public class Derivative extends AppCompatActivity {
 
         function.setText(functionName);
         atAPoint.setText(singleBound);
+
+
 
     }
 
