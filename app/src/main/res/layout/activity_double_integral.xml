@@ -12,17 +12,16 @@
         android:layout_width="80dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/dIntFunc"
-        android:layout_marginBottom="40dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginEnd="88dp"
+        android:layout_marginTop="8dp"
         android:layout_toStartOf="@+id/diSolve"
         android:background="@android:color/white"
         android:ems="10"
         android:hint="x=1"
         android:inputType="textPersonName"
-        app:layout_constraintBottom_toTopOf="@+id/diPointB"
-        app:layout_constraintEnd_toStartOf="@+id/diPointC"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintBottom_toBottomOf="@+id/diPointC"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/diPointC" />
 
     <EditText
         android:id="@+id/diPointD"
@@ -30,14 +29,14 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/diSolve"
         android:layout_alignStart="@+id/diPointC"
-        android:layout_marginBottom="144dp"
-        android:layout_marginEnd="72dp"
+        android:layout_marginBottom="200dp"
+        android:layout_marginStart="88dp"
         android:background="@android:color/white"
         android:ems="10"
         android:hint="y=5"
         android:inputType="textPersonName"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
         android:id="@+id/innerVar"
@@ -119,17 +118,16 @@
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/diPointA"
         android:layout_below="@+id/diPointA"
-        android:layout_marginBottom="148dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="88dp"
         android:background="@android:color/white"
         android:ems="10"
         android:hint="x=3"
         android:inputType="textPersonName"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/diPointD"
-        app:layout_constraintHorizontal_bias="0.485"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintBottom_toBottomOf="@+id/diPointD"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/diPointD"
+        app:layout_constraintVertical_bias="0.0" />
 
     <EditText
         android:id="@+id/diPointC"
@@ -137,15 +135,15 @@
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/diPointA"
         android:layout_alignBottom="@+id/diPointA"
-        android:layout_marginBottom="44dp"
-        android:layout_marginEnd="72dp"
+        android:layout_marginBottom="148dp"
+        android:layout_marginStart="88dp"
         android:layout_toStartOf="@+id/outerVar"
         android:background="@android:color/white"
         android:ems="10"
         android:hint="y=2"
         android:inputType="textPersonName"
-        app:layout_constraintBottom_toTopOf="@+id/diPointD"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/textView5"
@@ -153,12 +151,13 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/diPointC"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="24dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:text="End Points"
-        app:layout_constraintBottom_toTopOf="@+id/diPointC"
+        app:layout_constraintBottom_toTopOf="@+id/diPointB"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
