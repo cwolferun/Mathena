@@ -49,7 +49,7 @@ public class Derivative extends AppCompatActivity {
     SharedPreferences.Editor sEditor;
     boolean callSuccess;
     static int MY_PERMISSIONS_CAMERA;
-    Set<String> put1;
+    Set<String> entries;
 
 
 
@@ -82,9 +82,9 @@ public class Derivative extends AppCompatActivity {
         //permission.camera();
         //put1 = new ArraySet<>();
 
-        put1 = myHistory.getStringSet("derivative", null);
-        if(put1 == null) {
-            put1 = new ArraySet<>();
+        entries = myHistory.getStringSet("derivative", null);
+        if(entries == null) {
+            entries = new ArraySet<>();
         }
 
         solveIt = (Button) findViewById(R.id.solveDerivBtn);
@@ -141,10 +141,10 @@ public class Derivative extends AppCompatActivity {
 
 
             builder.append(" ").append(atAPoint.getText().toString())
-            .append("\n").append(answer.getText().toString());
+            .append("\n\t").append(answer.getText().toString());
 
-            put1.add(builder.toString());
-            myHistory.edit().putStringSet("derivative",put1).apply();
+            entries.add(builder.toString());
+            myHistory.edit().putStringSet("derivative",entries).apply();
            // myHistory.edit().apply();
 
             callSuccess = false;
@@ -210,8 +210,8 @@ public class Derivative extends AppCompatActivity {
             result="";
 
             try{
-                String solverURL = "Http://192.168.1.65/derivative.php";        //will need to be changed to public ip
-                //String solverURL = "Http://172.12.2.86/derivative.php";
+                //String solverURL = "Http://192.168.1.65/derivative.php";        //will need to be changed to public ip
+                String solverURL = "Http://172.12.2.86/derivative.php";
                 URL url = new URL(solverURL);
                 HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
                 httpURLConnection.setRequestMethod("POST");

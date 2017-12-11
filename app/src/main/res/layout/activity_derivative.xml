@@ -63,18 +63,19 @@
 
     <Button
         android:id="@+id/solveDerivBtn"
-        android:layout_above="@+id/derivAnser"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="68dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
         android:layout_width="108dp"
         android:layout_height="43dp"
+        android:layout_above="@+id/derivAnser"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="72dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
         android:background="@mipmap/buttest2"
-        android:textColor="@android:color/background_light"
         android:text="Solve"
+        android:textColor="@android:color/background_light"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.8"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView

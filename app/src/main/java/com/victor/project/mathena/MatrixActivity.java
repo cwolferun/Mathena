@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.ArraySet;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -35,6 +36,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Set;
 import java.util.StringTokenizer;
 
 
@@ -52,12 +54,17 @@ public class MatrixActivity extends AppCompatActivity {
     SharedPreferences preferences;
     SharedPreferences.Editor sEditor;
     boolean callSuccess;
+    Set<String> entries;
+    SharedPreferences myHistory;
+
 
 
     @Override
     protected void onResume() {
         super.onResume();
-        numOfEqs=1;
+        //numOfEqs=1;
+        //ll.removeAllViews();
+
         String received = preferences.getString("Function","");
         if(!received.isEmpty()){
             sEditor.clear();
@@ -94,6 +101,8 @@ public class MatrixActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_matrix);
         preferences = getSharedPreferences("share", 0);
+        myHistory = getSharedPreferences("History", 0);
+
         sEditor = preferences.edit();
         context = getApplicationContext();
         addOne = (Button) findViewById(R.id.addEquation);
@@ -104,6 +113,12 @@ public class MatrixActivity extends AppCompatActivity {
         allInputs = new StringBuilder();
         callSuccess =false;
         allTex = new ArrayList<>();
+
+        entries = myHistory.getStringSet("matrix", null);
+        if(entries == null) {
+            entries = new ArraySet<>();
+        }
+
 
         addOne.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -134,7 +149,10 @@ public class MatrixActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
                 allInputs.setLength(0);
-                answer.setText(result);
+                //result.replaceAll(" ","\n");
+                answer.setText(result.replaceAll(" ","\n"));
+                savehistory();
+
             }
         });
 
@@ -187,27 +205,31 @@ public class MatrixActivity extends AppCompatActivity {
         }
     }
 
-  /*  private void savehistory() {
+    private void savehistory() {
 
         if(callSuccess){
 
 
 
-            StringBuilder builder = new StringBuilder(function.getText().toString());
 
+            StringBuilder builder = new StringBuilder();
+            builder.append(first.getText().toString());
+            for(int t=1; t<numOfEqs;t++)
+            {
+                builder.append(" ").append(allTex.get(t-1).getText().toString());
+            }
 
-            builder.append(" ").append(atAPoint.getText().toString())
-                    .append("\n").append(answer.getText().toString());
+            builder.append("\n").append(answer.getText().toString());
 
-            put1.add(builder.toString());
-            myHistory.edit().putStringSet("derivative",put1).apply();
+            entries.add(builder.toString());
+            myHistory.edit().putStringSet("matrix",entries).apply();
             // myHistory.edit().apply();
 
             callSuccess = false;
         }
 
     }
-*/
+
 
     class NetworkThread extends Thread{
         String send;
@@ -243,6 +265,7 @@ public class MatrixActivity extends AppCompatActivity {
                 bufferedReader.close();
                 inputStream.close();
                 httpURLConnection.disconnect();
+                callSuccess = true;
 
 
             } catch (UnsupportedEncodingException e) {
@@ -264,13 +287,20 @@ public class MatrixActivity extends AppCompatActivity {
 
         String[] equations = string.split("\n");
         int systemSize = equations.length;
-        for (int e =1; e<systemSize;e++){
+
+        for (int e =numOfEqs; e<systemSize;e++){
 
             addEditText();
+        }
+
+        for (int e =1; e<systemSize;e++){
+
+            //addEditText();
             allTex.get(e-1).setText(equations[e]);
         }
 
         first.setText(equations[0]);
+
 
     }
 

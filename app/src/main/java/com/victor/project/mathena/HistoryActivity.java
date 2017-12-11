@@ -17,19 +17,17 @@ import java.util.Set;
 
 public class HistoryActivity extends AppCompatActivity {
 
-    List<TextView> allEntries;
     LinearLayout ll;
     SharedPreferences hPreferences;
-    SharedPreferences.Editor sEditor;
-    Map<String, ?> everything;
     Context context;
     Intent intent;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history);
         context = getApplicationContext();
-        intent = getParentActivityIntent();
+        intent = getIntent();
         String whoCalledMe = intent.getStringExtra("caller");
 
         ll = (LinearLayout) findViewById(R.id.historyView);
@@ -55,16 +53,14 @@ public class HistoryActivity extends AppCompatActivity {
         }
 
 
-       // set = hPreferences.getStringSet("derivative",null);
 
         LinearLayout.LayoutParams layoutParams = new  LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
         try {
             for(String s : set){
                 final TextView textView = new TextView(context);
-                //rowEditText.setId(numOfEqs);
                 textView.setText(s);
-                textView.setTextSize(20);
+                textView.setTextSize(16);
                 textView.setTextColor(0xff081c99);
 
                 ll.addView(textView, layoutParams);

@@ -1,5 +1,7 @@
 package com.victor.project.mathena;
 
+import android.content.ContentValues;
+import android.net.Uri;
 import android.support.v4.content.FileProvider;
 
 /**
@@ -7,6 +9,5 @@ import android.support.v4.content.FileProvider;
  */
 
 public class GenericFileProvider extends FileProvider {
-
 
 }

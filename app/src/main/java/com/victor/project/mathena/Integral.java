@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.ArraySet;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -26,6 +27,7 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.Set;
 
 public class Integral extends AppCompatActivity {
 
@@ -38,6 +40,9 @@ public class Integral extends AppCompatActivity {
     boolean callSuccess;
     SharedPreferences preferences;
     SharedPreferences.Editor sEditor;
+    Set<String> entries;
+    SharedPreferences myHistory;
+
 
 
     @Override
@@ -59,9 +64,16 @@ public class Integral extends AppCompatActivity {
         setContentView(R.layout.activity_integral);
         callSuccess =false;
         preferences = getSharedPreferences("share",0);
+        myHistory = getSharedPreferences("History", 0);
+
         sEditor = preferences.edit();
         solveIt = (Button) findViewById(R.id.solveIntegBtn);
         answer = (TextView) findViewById(R.id.IntegAnser);
+
+        entries = myHistory.getStringSet("integral", null);
+        if(entries == null) {
+            entries = new ArraySet<>();
+        }
 
 
         solveIt.setOnClickListener(new View.OnClickListener() {
@@ -89,6 +101,7 @@ public class Integral extends AppCompatActivity {
                 }
                 answer.setText("");
                 answer.setText(result);
+                savehistory();
 
 
 
@@ -117,6 +130,7 @@ public class Integral extends AppCompatActivity {
                 Intent camIntent;
                 camIntent = new Intent(this,CameraActivity.class);
                 startActivity(camIntent);
+                return true;
             case R.id.der_menu:
                 Intent derivIntent;
                 derivIntent = new Intent(this,Derivative.class);
@@ -144,26 +158,27 @@ public class Integral extends AppCompatActivity {
     }
 
 
-  /*  private void savehistory() {
+    private void savehistory() {
 
         if(callSuccess){
+
 
 
 
             StringBuilder builder = new StringBuilder(function.getText().toString());
 
 
-            builder.append(" ").append(atAPoint.getText().toString())
-                    .append("\n").append(answer.getText().toString());
+            builder.append(" ").append(atAPointA.getText().toString())
+                    .append(" ").append(atAPointB.getText().toString())
+                    .append("\n\t").append(answer.getText().toString());
 
-            put1.add(builder.toString());
-            myHistory.edit().putStringSet("derivative",put1).apply();
-            // myHistory.edit().apply();
+            entries.add(builder.toString());
+            myHistory.edit().putStringSet("integral",entries).apply();
 
             callSuccess = false;
         }
 
-    }*/
+    }
     class NetworkThread extends Thread{
         String send;
         NetworkThread(String send) {
@@ -174,8 +189,8 @@ public class Integral extends AppCompatActivity {
             result="";
 
             try{
-                //String solverURL = "Http://192.168.1.65/integral.php";        //will need to be changed to public ip
-                String solverURL = "Http://172.12.2.86/integral.php";        //is public ip
+                String solverURL = "Http://192.168.1.65/integral.php";        //will need to be changed to public ip
+                //String solverURL = "Http://172.12.2.86/integral.php";        //is public ip
 
                 URL url = new URL(solverURL);
                 HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
@@ -198,6 +213,7 @@ public class Integral extends AppCompatActivity {
                 bufferedReader.close();
                 inputStream.close();
                 httpURLConnection.disconnect();
+                callSuccess = true;
 
 
             } catch (UnsupportedEncodingException e) {

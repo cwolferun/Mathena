@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.ArraySet;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -26,6 +27,7 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.Set;
 
 public class DoubleIntegral extends AppCompatActivity {
 
@@ -44,6 +46,9 @@ public class DoubleIntegral extends AppCompatActivity {
     boolean callSuccess;
     SharedPreferences preferences;
     SharedPreferences.Editor sEditor;
+    Set<String> entries;
+    SharedPreferences myHistory;
+
 
 
     @Override
@@ -65,7 +70,15 @@ public class DoubleIntegral extends AppCompatActivity {
 
         callSuccess =false;
         preferences = getSharedPreferences("share",0);
+        myHistory = getSharedPreferences("History", 0);
+
         sEditor = preferences.edit();
+
+        entries = myHistory.getStringSet("doubleIntegral", null);
+        if(entries == null) {
+            entries = new ArraySet<>();
+        }
+
 
         solveIt = (Button) findViewById(R.id.diSolve);
         answer = (TextView) findViewById(R.id.diAnswer);
@@ -111,6 +124,7 @@ public class DoubleIntegral extends AppCompatActivity {
                 }
                 answer.setText("");
                 answer.setText(result);
+                savehistory();
 
 
 
@@ -157,7 +171,7 @@ public class DoubleIntegral extends AppCompatActivity {
                 bufferedReader.close();
                 inputStream.close();
                 httpURLConnection.disconnect();
-
+                callSuccess = true;
 
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
@@ -199,7 +213,8 @@ public class DoubleIntegral extends AppCompatActivity {
                 Intent derivIntent;
                 derivIntent = new Intent(this,Derivative.class);
                 startActivity(derivIntent);
-                finish();                return true;
+                finish();
+                return true;
             case R.id.integ_menu:
                 Intent integIntent;
                 integIntent = new Intent(this,Integral.class);
@@ -220,7 +235,7 @@ public class DoubleIntegral extends AppCompatActivity {
         }
     }
 
-  /*  private void savehistory() {
+    private void savehistory() {
 
         if(callSuccess){
 
@@ -229,17 +244,21 @@ public class DoubleIntegral extends AppCompatActivity {
             StringBuilder builder = new StringBuilder(function.getText().toString());
 
 
-            builder.append(" ").append(atAPoint.getText().toString())
-                    .append("\n").append(answer.getText().toString());
+            builder.append(" ").append("d").append(wrtInner.getText().toString())
+                    .append("d").append(wrtOuter.getText().toString())
+                    .append(" ").append(atAPointA.getText().toString())
+                    .append(" ").append(atAPointB.getText().toString())
+                    .append(" ").append(atAPointC.getText().toString())
+                    .append(" ").append(atAPointD.getText().toString())
+                    .append("\n\t").append(answer.getText().toString());
 
-            put1.add(builder.toString());
-            myHistory.edit().putStringSet("derivative",put1).apply();
-            // myHistory.edit().apply();
+            entries.add(builder.toString());
+            myHistory.edit().putStringSet("doubleIntegral",entries).apply();
 
             callSuccess = false;
         }
 
-    }*/
+    }
     public void fillFields(String string){
         //string may equal something like "5x^3+4x-2y^2+5y dx dy\nx=[3,6]\ny=[2,5]"
 

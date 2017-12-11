@@ -14,7 +14,6 @@ public class HomeActivity extends AppCompatActivity {
     Button goToDInteg;
     Button goToMatrix;
 
-
     Intent derivIntent;
     Intent integIntent;
     Intent dIntegIntent;
@@ -32,7 +31,6 @@ public class HomeActivity extends AppCompatActivity {
         sEditor.clear();
         sEditor.apply();
 
-
         goToDeriv = (Button) findViewById(R.id.deriv_button);
         goToInteg = (Button) findViewById(R.id.integ_button);
         goToDInteg = (Button) findViewById(R.id.dInteg_button);
@@ -42,7 +40,6 @@ public class HomeActivity extends AppCompatActivity {
         integIntent = new Intent(this,Integral.class);
         dIntegIntent = new Intent(this,DoubleIntegral.class);
         matrixIntent = new Intent(this,MatrixActivity.class);
-
 
         goToDeriv.setOnClickListener(new View.OnClickListener() {
             @Override

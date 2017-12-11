@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.os.StrictMode;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.FileProvider;
@@ -50,6 +51,8 @@ public class CameraActivity extends AppCompatActivity {
     private Uri outputFileDir;
     Context context;
 
+    Button make;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,20 +61,13 @@ public class CameraActivity extends AppCompatActivity {
         sEditor = preferences.edit();
         context = getApplicationContext();
 
-       // btn1 = (Button) findViewById(R.id.testbtn);
+        StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+        StrictMode.setVmPolicy(builder.build());
 
-        //final Activity activity = this;
+
         checkPermission();
         startCameraActivity();
 
-
-//        this.findViewById(R.id.testbtn).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                checkPermission();
-//
-//            }
-//        });
 
 
 
@@ -84,7 +80,7 @@ public class CameraActivity extends AppCompatActivity {
         }
         if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 121);
-        }//else {Toast.makeText(context,"you can write",Toast.LENGTH_LONG).show();}
+        }
     }
     private void startCameraActivity(){
         try{
@@ -100,7 +96,7 @@ public class CameraActivity extends AppCompatActivity {
             String imageFilePath = imagePath+"/ocr.jpg";
             outputFileDir = Uri.fromFile(new File(imageFilePath));
             //outputFileDir = FileProvider.getUriForFile(context, context.getApplicationContext().getPackageName() +
-             //       ".provider", new File(imageFilePath));
+            //      ".provider", new File(imageFilePath));
             final Intent pictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             pictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileDir);
             pictureIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
@@ -173,6 +169,7 @@ public class CameraActivity extends AppCompatActivity {
             finish();
         }catch (Exception e){
             Log.e(TAG, e.getMessage());
+            Toast.makeText(context,e.getMessage(),Toast.LENGTH_LONG).show();
         }
     }
 

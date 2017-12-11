@@ -165,16 +165,17 @@
         android:id="@+id/diSolve"
         android:layout_width="108dp"
         android:layout_height="43dp"
-        android:background="@mipmap/buttest2"
         android:layout_alignEnd="@+id/textView5"
         android:layout_below="@+id/diPointB"
-        android:layout_marginBottom="64dp"
+        android:layout_marginBottom="68dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
+        android:background="@mipmap/buttest2"
         android:text="Solve"
         android:textColor="@android:color/background_light"
-        app:layout_constraintBottom_toBottomOf="@+id/diAnswer"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.753"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
