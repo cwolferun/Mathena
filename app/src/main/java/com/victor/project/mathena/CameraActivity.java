@@ -228,6 +228,9 @@ public class CameraActivity extends AppCompatActivity {
             if(cArray[c]=='~'){
                 cArray[c] ='-';
             }
+            if(cArray[c]=='"'){
+                cArray[c] ='^';
+            }
             if(isLetter(cArray[c])){
                 cArray[c] = toLowerCase(cArray[c]);
             }

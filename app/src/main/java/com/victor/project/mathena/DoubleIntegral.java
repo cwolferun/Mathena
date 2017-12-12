@@ -145,8 +145,8 @@ public class DoubleIntegral extends AppCompatActivity {
             result="";
 
             try{
-                String solverURL = "Http://192.168.1.65/doubleIntegral.php";        //uncomment when working in private
-                //String solverURL = "Http://172.12.2.86/doubleIntegral.php";        //uncomment when working from public
+                //String solverURL = "Http://192.168.1.65/doubleIntegral.php";        //uncomment when working in private
+                String solverURL = "Http://172.12.2.86/doubleIntegral.php";        //uncomment when working from public
 
                 URL url = new URL(solverURL);
                 HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();

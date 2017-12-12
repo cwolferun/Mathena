@@ -42,6 +42,8 @@ import java.util.StringTokenizer;
 
 public class MatrixActivity extends AppCompatActivity {
     Button addOne;
+    Button removeOne;
+
     Button solveit;
     TextView answer;
     EditText first;
@@ -62,9 +64,12 @@ public class MatrixActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        //numOfEqs=1;
-        //ll.removeAllViews();
-
+//        numOfEqs=1;
+//        //ll.removeAllViews();
+//
+//        first = (EditText) findViewById(R.id.firstEq);
+//        ll = (LinearLayout) findViewById(R.id.linLay);
+//        ll.add(first);
         String received = preferences.getString("Function","");
         if(!received.isEmpty()){
             sEditor.clear();
@@ -76,7 +81,7 @@ public class MatrixActivity extends AppCompatActivity {
 
     public void addEditText(){
 
-        if (numOfEqs<=5) {
+        if (numOfEqs<=4) {
             final EditText rowEditText = new EditText(context);
             rowEditText.setId(numOfEqs);
             LinearLayout.LayoutParams layoutParams = new  LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -89,12 +94,37 @@ public class MatrixActivity extends AppCompatActivity {
 
         }
         else {
-            Toast.makeText(context,"Take it the easy",Toast.LENGTH_LONG).show();
+            Toast.makeText(context,"I think that's plenty.",Toast.LENGTH_LONG).show();
         }
 
 
 
     }
+    public void removeEditText(){
+
+        if (numOfEqs>=2) {
+
+            int size = ll.getChildCount()-1;
+            ll.removeViewAt(size);
+            allTex.remove(size-1);
+            numOfEqs -=1;
+
+
+        }
+
+
+
+
+    }
+
+//    @Override
+//    protected void onPause() {
+//        super.onPause();
+//
+//        first = null;
+//        ll.removeAllViews();
+//        ll = null;
+//    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,10 +136,12 @@ public class MatrixActivity extends AppCompatActivity {
         sEditor = preferences.edit();
         context = getApplicationContext();
         addOne = (Button) findViewById(R.id.addEquation);
+        removeOne = (Button) findViewById(R.id.removeEquation);
         first = (EditText) findViewById(R.id.firstEq);
+        ll = (LinearLayout) findViewById(R.id.linLay);
+
         solveit = (Button) findViewById(R.id.matrixSolv);
         answer = (TextView) findViewById(R.id.matrixAns);
-        ll = (LinearLayout) findViewById(R.id.linLay);
         allInputs = new StringBuilder();
         callSuccess =false;
         allTex = new ArrayList<>();
@@ -119,6 +151,12 @@ public class MatrixActivity extends AppCompatActivity {
             entries = new ArraySet<>();
         }
 
+        removeOne.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                removeEditText();
+            }
+        });
 
         addOne.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -241,8 +279,8 @@ public class MatrixActivity extends AppCompatActivity {
             result="";
 
             try{
-                String solverURL = "Http://192.168.1.65/matrix.php";        //will need to be changed to public ip
-                //String solverURL = "Http://172.12.2.86/matrix.php";        //is public ip
+                //String solverURL = "Http://192.168.1.65/matrix.php";        //will need to be changed to public ip
+                String solverURL = "Http://172.12.2.86/matrix.php";        //is public ip
 
                 URL url = new URL(solverURL);
                 HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
@@ -288,7 +326,7 @@ public class MatrixActivity extends AppCompatActivity {
         String[] equations = string.split("\n");
         int systemSize = equations.length;
 
-        for (int e =numOfEqs; e<systemSize;e++){
+        for (int t =numOfEqs; t<systemSize;t++){
 
             addEditText();
         }
